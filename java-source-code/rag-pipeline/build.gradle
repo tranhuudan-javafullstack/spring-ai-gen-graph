@@ -1,0 +1,52 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.3.5'
+	id 'io.spring.dependency-management' version '1.1.6'
+}
+
+group = 'com.course.ai'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
+
+repositories {
+	mavenCentral()
+	maven { url 'https://repo.spring.io/milestone' }
+}
+
+ext {
+	set('springAiVersion', "1.0.0-M3")
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.ai:spring-ai-neo4j-store-spring-boot-starter'
+	implementation 'org.springframework.ai:spring-ai-openai-spring-boot-starter'
+
+    implementation 'org.springframework.ai:spring-ai-tika-document-reader'
+    implementation 'commons-codec:commons-codec:1.17.1'
+    implementation 'io.temporal:temporal-spring-boot-starter:1.26.1'
+	implementation 'org.springframework.boot:spring-boot-starter-data-neo4j'
+
+	implementation 'org.apache.commons:commons-csv:1.12.0'
+	implementation 'org.jsoup:jsoup:1.18.1'
+
+	runtimeOnly 'org.postgresql:postgresql'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.ai:spring-ai-bom:${springAiVersion}"
+	}
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
